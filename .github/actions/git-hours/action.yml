@@ -20,7 +20,7 @@ runs:
         go-version: '1.20'
     - name: Install git-hours
       run: |
-        go install github.com/kimmobrunfeldt/git-hours@latest
+        go install github.com/kimmobrunfeldt/git-hours/cmd/git-hours@latest
         echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
       shell: bash
     - name: Run git-hours
@@ -36,12 +36,12 @@ runs:
       working-directory: ${{ inputs.repo_path }}
       run: |
         python <<'PY'
-import json
-with open('git-hours-raw.json') as f:
-    data = json.load(f)
-with open('git-hours.json', 'w') as f:
-    json.dump(data, f, indent=2)
-PY
+        import json
+        with open('git-hours-raw.json') as f:
+            data = json.load(f)
+        with open('git-hours.json', 'w') as f:
+            json.dump(data, f, indent=2)
+        PY
       shell: bash
     - id: output-json
       run: echo "path=${{ inputs.repo_path }}/git-hours.json" >> $GITHUB_OUTPUT
