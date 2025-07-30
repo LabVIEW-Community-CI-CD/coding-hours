@@ -20,7 +20,7 @@ runs:
         go-version: '1.20'
     - name: Install git-hours
       run: |
-        go install github.com/kimmobrunfeldt/git-hours@latest
+        go install github.com/kimmobrunfeldt/git-hours/cmd/git-hours@latest
         echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
       shell: bash
     - name: Run git-hours

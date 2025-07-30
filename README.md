@@ -6,7 +6,7 @@ This repository contains a reusable GitHub composite action for running the [git
 
 The action lives at `.github/actions/git-hours` and performs the following:
 
-1. Installs Go and the `git-hours` tool.
+1. Installs Go and the `git-hours` tool from the `cmd/git-hours` package.
 2. Runs `git-hours` with optional `window_start` and `repo_path` inputs.
 3. Converts the output to `git-hours.json`.
 4. Exposes the generated file path as the `results` output.
