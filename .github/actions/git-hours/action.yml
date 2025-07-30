@@ -4,6 +4,9 @@ inputs:
   window_start:
     description: Start date for git-hours, e.g. 2024-01-01
     required: false
+  repo_path:
+    description: Path to the repository to analyze
+    default: '.'
 outputs:
   results:
     description: Path to generated git-hours.json
@@ -11,7 +14,6 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: actions/checkout@v4
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
@@ -22,6 +24,7 @@ runs:
         echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
       shell: bash
     - name: Run git-hours
+      working-directory: ${{ inputs.repo_path }}
       run: |
         if [ -n "${{ inputs.window_start }}" ]; then
           git-hours --json --since "${{ inputs.window_start }}" > git-hours-raw.json
@@ -30,6 +33,7 @@ runs:
         fi
       shell: bash
     - name: Convert to git-hours.json
+      working-directory: ${{ inputs.repo_path }}
       run: |
         python <<'PY'
 import json
@@ -40,5 +44,5 @@ with open('git-hours.json', 'w') as f:
 PY
       shell: bash
     - id: output-json
-      run: echo "path=$(pwd)/git-hours.json" >> $GITHUB_OUTPUT
+      run: echo "path=${{ inputs.repo_path }}/git-hours.json" >> $GITHUB_OUTPUT
       shell: bash
