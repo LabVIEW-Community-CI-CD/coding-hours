@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: set
-        run: echo "matrix=$(jq -c '.repos' repos.json)" >> $GITHUB_OUTPUT
+        run: echo "matrix=$(jq -c '.repos' docs/repos.json)" >> $GITHUB_OUTPUT
 
   calculate:
     needs: set-matrix

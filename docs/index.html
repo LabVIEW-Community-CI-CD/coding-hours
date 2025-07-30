@@ -15,7 +15,7 @@
   <h1>Repositories Tracked for Coding Hours</h1>
   <ul id="repo-list"></ul>
   <script>
-    fetch('../repos.json')
+    fetch('repos.json')
       .then(response => response.json())
       .then(data => {
         const list = document.getElementById('repo-list');
