@@ -1,7 +1,6 @@
 # Coding Hours
 
-This repository contains a reusable GitHub composite action for running the
-[git-hours](https://github.com/kimmobrunfeldt/git-hours) tool.
+This repository contains a reusable GitHub composite action for running the [git-hours](https://github.com/kimmobrunfeldt/git-hours) tool.
 
 ## Composite Action
 
@@ -41,5 +40,8 @@ jobs:
           path: ${{ steps.hours.outputs.results }}
 ```
 
-Run the workflow manually and the resulting `git-hours.json` file will be
-available as an artifact.
+Run the workflow manually and the resulting `git-hours.json` file will be available as an artifact.
+
+## Organization Reports and GitHub Pages
+
+A separate workflow, `.github/workflows/org-coding-hours.yml`, reads a list of repositories from `repos.json` and generates coding hours reports for each one. The reports can be published or downloaded as artifacts. The repository also serves a GitHub Pages site under the `docs` folder that lists the repositories being tracked.
