@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coding Hours Repositories</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    h1 { color: #333; }
+    ul { list-style-type: none; padding: 0; }
+    li { margin: 0.5em 0; }
+  </style>
+</head>
+<body>
+  <h1>Repositories Tracked for Coding Hours</h1>
+  <ul id="repo-list"></ul>
+  <script>
+    fetch('repos.json')
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById('repo-list');
+        data.repos.forEach(repo => {
+          const li = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = 'https://github.com/' + repo;
+          link.textContent = repo;
+          li.appendChild(link);
+          list.appendChild(li);
+        });
+      })
+      .catch(err => {
+        document.getElementById('repo-list').textContent = 'Failed to load repo list.';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
