@@ -1,0 +1,40 @@
+name: Organization Coding Hours
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  set-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: set
+        run: echo "matrix=$(jq -c '.repos' repos.json)" >> $GITHUB_OUTPUT
+
+  calculate:
+    needs: set-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: ${{ fromJSON(needs.set-matrix.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.repo }}
+          path: repo
+      - name: Run git-hours
+        uses: .github/actions/git-hours
+        with:
+          window_start: ''
+        working-directory: repo
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.repo }}-git-hours
+          path: repo/git-hours.json
