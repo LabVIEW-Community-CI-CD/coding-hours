@@ -29,7 +29,8 @@ jobs:
           repository: ${{ matrix.repo }}
           path: repo
       - name: Run git-hours
-        uses: ./.github/actions/git-hours
+        id: hours
+        uses: LabVIEW-Community-CI-CD/coding-hours/.github/actions/git-hours@main
         with:
           window_start: ''
           repo_path: repo
@@ -37,4 +38,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.repo }}-git-hours
-          path: repo/git-hours.json
+          path: ${{ steps.hours.outputs.results }}
